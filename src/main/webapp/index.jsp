@@ -1,9 +1,23 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.time.LocalTime" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>COMP367</title>
+    <title>COMP367 Greeting</title>
 </head>
 <body>
-    <h1>Welcome to COMP367</h1>
+
+<%
+    LocalTime now = LocalTime.now();
+    String greeting;
+
+    if (now.isBefore(LocalTime.NOON)) {
+        greeting = "Good morning, Parmila, Welcome to COMP367";
+    } else {
+        greeting = "Good afternoon, Parmila, Welcome to COMP367";
+    }
+%>
+
+<h2><%= greeting %></h2>
+
 </body>
 </html>
