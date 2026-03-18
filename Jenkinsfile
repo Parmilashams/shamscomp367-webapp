@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'feature/dynamic-greeting', url: 'https://github.com/Parmilashams/shamscomp367-webapp.git'
+               git branch: 'main', url: 'https://github.com/Parmilashams/shamscomp367-webapp.git'
             }
         }
 
