@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = 'dockerhub'
         IMAGE_NAME = 'parmilashams/shamscomp367-webapp'
+        DOCKER_CMD = '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe"'
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-               git branch: 'main', url: 'https://github.com/Parmilashams/shamscomp367-webapp.git'
+                git branch: 'main', url: 'https://github.com/Parmilashams/shamscomp367-webapp.git'
             }
         }
 
@@ -22,23 +22,21 @@ pipeline {
 
         stage('Docker Login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub',
-                usernameVariable: 'USER',
-                passwordVariable: 'PASS')]) {
-                    bat 'echo %PASS% | docker login -u %USER% --password-stdin'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    bat '%DOCKER_CMD% login -u %USER% --password %PASS%'
                 }
             }
         }
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t %IMAGE_NAME% .'
+                bat '%DOCKER_CMD% build -t %IMAGE_NAME% .'
             }
         }
 
         stage('Docker Push') {
             steps {
-                bat 'docker push %IMAGE_NAME%'
+                bat '%DOCKER_CMD% push %IMAGE_NAME%'
             }
         }
     }
